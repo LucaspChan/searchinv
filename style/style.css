@@ -1,0 +1,40 @@
+.logo {
+	width: 20%;
+}
+
+@media only screen and (max-width: 1000px) {
+	.logo {
+		min-width: 150px;
+	}
+}
+
+h1 {
+	font-family: AdineuePRO, Helvetica, Arial, sans-serif;
+	font-weight: bolder !important;
+}
+
+.col {
+	text-align: center;
+}
+
+.rowOne .col,
+.rowTwo .col {
+	padding-top: 50px;
+	padding-bottom: 50px;
+}
+
+p {
+	margin-bottom: 0px !important;
+}
+
+.row .borderStatus {
+	background-color: #ecece2;
+	border: 1px solid;
+	border-color: rgb(18, 189, 18);
+}
+
+.row .borderStatusEmpty {
+	background-color: #ecece2;
+	border: 1px solid;
+	border-color: rgb(250, 15, 15);
+}
