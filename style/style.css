@@ -36,5 +36,5 @@ p {
 .row .borderStatusEmpty {
 	background-color: #ecece2;
 	border: 1px solid;
-	border-color: rgb(250, 15, 15);
+	border-color: rgb(255, 0, 0);
 }

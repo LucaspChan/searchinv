@@ -29,7 +29,6 @@ const headOne = function(title) {
 	let hOne = document.createElement('h4');
 	hOne.className = 'text-center';
 	hOne.appendChild(text(title));
-	console.log(hOne);
 	return hOne;
 };
 
@@ -43,9 +42,20 @@ const text = function(texts) {
 	return node;
 };
 
-const quantityCheck = function(ind) {
-	if (obj.variation_list[ind].availability == 0) {
-		console.log('empty');
+const quantityCheck = function() {
+	for (let i = 0; i < obj.variation_list.length - 2; i++) {
+		let stockID = obj.variation_list[i].sku;
+		if (obj.variation_list[i].availability === 0) {
+			document.getElementById('_' + stockID).style.borderColor = 'rgb(250, 0, 0)';
+			document.getElementById('_' + stockID).style.borderWidth = '2px';
+			console.log('hit here');
+		}
+		document.getElementById('_' + stockID).style.borderWidth = '2px';
+		// } else if (obj.variation_list[i].availability <= 10) {
+		// 	document.getElementById('_' + stockID).style.borderColor = 'rgb(234, 255, 48)';
+		// 	document.getElementById('_' + stockID).style.borderWidth = '2px';
+		// 	console.log(document.getElementById('_' + stockID));
+		// }
 	}
 };
 
@@ -57,12 +67,11 @@ for (let j = 0; j < obj.variation_list.length - 2; j++) {
 	let pTwo = pTag();
 	if (j < (obj.variation_list.length - 2) / 2) {
 		let textnode = text('Size ' + obj.variation_list[j].size);
-		console.log(obj.variation_list[j].sku);
 		let quantity = text('Quantity: ' + obj.variation_list[j].availability);
-		quantityCheck(j);
 		let tempCol = createCol();
 		pOne.appendChild(textnode);
 		pTwo.appendChild(quantity);
+		tempCol.setAttribute('id', obj.variation_list[j].sku);
 		tempCol.appendChild(pOne);
 		tempCol.appendChild(pTwo);
 		firstRow.appendChild(tempCol);
@@ -71,14 +80,13 @@ for (let j = 0; j < obj.variation_list.length - 2; j++) {
 		let quantityTwo = text('Quantity: ' + obj.variation_list[j].availability);
 		let tempColTwo = createCol();
 
-		quantityCheck(j);
 		pOne.appendChild(textnodeTwo);
 		pTwo.appendChild(quantityTwo);
+		tempColTwo.setAttribute('id', '_' + obj.variation_list[j].sku);
 		tempColTwo.appendChild(pOne);
 		tempColTwo.appendChild(pTwo);
 		secondRow.appendChild(tempColTwo);
 	}
-	console.log(pOne);
 }
 document.getElementById('list').appendChild(headOne(obj.id));
 
@@ -91,3 +99,4 @@ document.getElementById('list').appendChild(lineBreak());
 document.getElementById('list').appendChild(lineBreak());
 
 document.getElementById('list').appendChild(secondRow);
+quantityCheck();
