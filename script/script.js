@@ -1,9 +1,9 @@
 // https://www.adidas.ca/api/products/FW4904/availability
+// https://www.adidas.ca/en/ultraboost-dna-shoes/FW4904.html?forceSelSize=FW4904_590
 const shoeJSON =
 	'{"id":"FW4904","availability_status":"IN_STOCK","variation_list":[{"sku":"FW4904_580","availability":3,"availability_status":"IN_STOCK","size":"6.5"},{"sku":"FW4904_590","availability":15,"availability_status":"IN_STOCK","size":"7"},{"sku":"FW4904_600","availability":15,"availability_status":"IN_STOCK","size":"7.5"},{"sku":"FW4904_610","availability":15,"availability_status":"IN_STOCK","size":"8"},{"sku":"FW4904_620","availability":15,"availability_status":"IN_STOCK","size":"8.5"},{"sku":"FW4904_630","availability":15,"availability_status":"IN_STOCK","size":"9"},{"sku":"FW4904_640","availability":15,"availability_status":"IN_STOCK","size":"9.5"},{"sku":"FW4904_650","availability":15,"availability_status":"IN_STOCK","size":"10"},{"sku":"FW4904_660","availability":15,"availability_status":"IN_STOCK","size":"10.5"},{"sku":"FW4904_670","availability":15,"availability_status":"IN_STOCK","size":"11"},{"sku":"FW4904_680","availability":15,"availability_status":"IN_STOCK","size":"11.5"},{"sku":"FW4904_690","availability":15,"availability_status":"IN_STOCK","size":"12"},{"sku":"FW4904_700","availability":0,"availability_status":"NOT_AVAILABLE","size":"12.5"},{"sku":"FW4904_710","availability":15,"availability_status":"IN_STOCK","size":"13"},{"sku":"FW4904_730","availability":0,"availability_status":"NOT_AVAILABLE","size":"14"},{"sku":"FW4904_750","availability":0,"availability_status":"NOT_AVAILABLE","size":"15"}]}';
 
 const obj = JSON.parse(shoeJSON);
-console.log(obj.id, obj.availability_status);
 
 let createRow = function(anotherName) {
 	let row = document.createElement('div');
@@ -42,25 +42,30 @@ const text = function(texts) {
 	return node;
 };
 
+const loadShoe = function(skuNum) {
+	if (skuNum.includes('FW')) {
+		window.open('https://www.adidas.ca/en/ultraboost-dna-shoes/FW4904.html?forceSelSize=' + skuNum, '_blank');
+	}
+};
+
 const quantityCheck = function() {
 	for (let i = 0; i < obj.variation_list.length - 2; i++) {
 		let stockID = obj.variation_list[i].sku;
 		if (obj.variation_list[i].availability === 0) {
 			document.getElementById('_' + stockID).style.borderColor = 'rgb(250, 0, 0)';
 			document.getElementById('_' + stockID).style.borderWidth = '2px';
-			console.log('hit here');
+		} else if (obj.variation_list[i].availability <= 10) {
+			document.getElementById('_' + stockID).style.borderColor = 'rgb(251, 225, 140)';
+			document.getElementById('_' + stockID).style.borderWidth = '2px';
 		}
-		document.getElementById('_' + stockID).style.borderWidth = '2px';
-		// } else if (obj.variation_list[i].availability <= 10) {
-		// 	document.getElementById('_' + stockID).style.borderColor = 'rgb(234, 255, 48)';
-		// 	document.getElementById('_' + stockID).style.borderWidth = '2px';
-		// 	console.log(document.getElementById('_' + stockID));
-		// }
+		document.getElementById('_' + stockID).addEventListener('click', function() {
+			loadShoe(stockID);
+		});
 	}
 };
 
-let firstRow = createRow('rowOne');
-let secondRow = createRow('rowTwo');
+const firstRow = createRow('rowOne');
+const secondRow = createRow('rowTwo');
 
 for (let j = 0; j < obj.variation_list.length - 2; j++) {
 	let pOne = pTag();
@@ -71,7 +76,7 @@ for (let j = 0; j < obj.variation_list.length - 2; j++) {
 		let tempCol = createCol();
 		pOne.appendChild(textnode);
 		pTwo.appendChild(quantity);
-		tempCol.setAttribute('id', obj.variation_list[j].sku);
+		tempCol.setAttribute('id', '_' + obj.variation_list[j].sku);
 		tempCol.appendChild(pOne);
 		tempCol.appendChild(pTwo);
 		firstRow.appendChild(tempCol);
